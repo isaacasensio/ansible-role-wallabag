@@ -4,7 +4,5 @@ wallabag_host_config_path: /etc/wallabag
 wallabag_host_data_path: /var/lib/wallabag
 wallabag_container_user: wallabag
 wallabag_host_port: 8945
-wallabag_mailer_dsn: "smtp://127.0.0.1"
-wallabag_from_email: "wallabag@example.com"
-wallabag_domain_name: "localhost"
-wallabag_disable_registration: false
+wallabag_domain_name: "http://localhost"
+wallabag_enable_registration: false

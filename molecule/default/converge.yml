@@ -8,6 +8,9 @@
     wallabag_mysql_root_password: wallaroot
     wallabag_db_user: wallabag
     wallabag_db_password: wallabag
+    wallabag_mailer_dsn: "smtp://127.0.0.1"
+    wallabag_from_email: "wallabag@example.com"
+
     
 
   roles:

@@ -46,15 +46,14 @@ wallabag_from_email:  "wallabag@example.com"
 the address wallabag uses for outgoing emails
 
 ```
-wallabag_domain_name: "localhost"
+wallabag_domain_name: "http://localhost"
 ```
 the URL of your wallabag instance
 
 ```
-wallabag_disable_registration: true
+wallabag_enable_registration: false
 ```
 enable or disable public user registration
-
 
 
 
