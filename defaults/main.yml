@@ -7,4 +7,4 @@ wallabag_host_port: 8945
 wallabag_mailer_dsn: "smtp://127.0.0.1"
 wallabag_from_email: "wallabag@example.com"
 wallabag_domain_name: "localhost"
-wallabag_disable_registration: true
+wallabag_disable_registration: false

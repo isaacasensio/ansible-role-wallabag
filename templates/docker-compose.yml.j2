@@ -30,7 +30,7 @@ services:
     image: mariadb
     restart: unless-stopped
     environment:
-      - MYSQL_ROOT_PASSWORD=wallaroot
+      - MYSQL_ROOT_PASSWORD={{ wallabag_mysql_root_password }}
     volumes:
       - {{ wallabag_host_data_path }}/data:/var/lib/mysql
     healthcheck:
