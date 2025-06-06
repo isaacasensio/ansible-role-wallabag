@@ -1,0 +1,16 @@
+[Unit]
+Description=wallabag
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+User={{ wallabag_container_user }}
+Group=docker
+WorkingDirectory={{ wallabag_host_config_path }}
+ExecStartPre=/usr/bin/docker compose -f {{ wallabag_host_config_path }}/docker-compose.yml down
+ExecStart=/usr/bin/docker compose -f {{ wallabag_host_config_path }}/docker-compose.yml up
+ExecStop=/usr/bin/docker compose -f {{ wallabag_host_config_path }}/docker-compose.yml down
+
+[Install]
+WantedBy=multi-user.target

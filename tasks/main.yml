@@ -1,0 +1,63 @@
+---
+- name: Create wallabag user
+  ansible.builtin.user:
+    name: "{{ wallabag_container_user }}"
+    shell: /sbin/nologin
+    create_home: true
+    state: present
+  become: true
+
+- name: Get created user metadata
+  ansible.builtin.getent:
+    database: passwd
+    key: "{{ wallabag_container_user }}"
+
+- name: Setting user id and group id facts
+  ansible.builtin.set_fact:
+    created_uid: "{{ ansible_facts.getent_passwd[wallabag_container_user].1 }}"
+    created_gid: "{{ ansible_facts.getent_passwd[wallabag_container_user].2 }}"
+
+- name: Ensure wallabag folders exists
+  become: true
+  ansible.builtin.file:
+    dest: "{{ item }}"
+    owner: "{{ wallabag_container_user }}"
+    group: "{{ wallabag_container_user }}"
+    state: directory
+    mode: 0755
+  loop:
+    - "{{ wallabag_host_config_path }}"
+    - "{{ wallabag_host_data_path }}"
+    - "{{ wallabag_host_data_path }}/data"
+    - "{{ wallabag_host_data_path }}/images"
+
+- name: Copy wallabag docker-compose template.
+  ansible.builtin.template:
+    src: templates/docker-compose.yml.j2
+    dest: "{{ wallabag_host_config_path }}/docker-compose.yml"
+    owner: "{{ wallabag_container_user }}"
+    group: "{{ wallabag_container_user }}"
+    mode: 0644
+  become: true
+
+- name: Create systemd wallabag service.
+  ansible.builtin.template:
+    src: templates/wallabag.service.j2
+    dest: "/etc/systemd/system/wallabag.service"
+    mode: 0644
+  become: true
+
+- name: Ensure wallabag.service is started
+  ansible.builtin.systemd:
+    state: started
+    enabled: true
+    name: wallabag
+  become: true
+
+- name: Remove old image versions
+  become: true
+  community.docker.docker_prune:
+    images: true
+    images_filters:
+      dangling: false
+  notify: Restart Docker service

@@ -1,0 +1,8 @@
+---
+roles:
+  - geerlingguy.pip
+  - geerlingguy.docker
+collections:
+  - ansible.posix
+  - community.docker
+  - community.general
